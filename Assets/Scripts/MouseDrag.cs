@@ -10,15 +10,20 @@ public class MouseDrag : MonoBehaviour {
     
     Vector3 screenPoint, offset, scanPos, curPosition, curScreenPoint;
     public float gridSize, gridX, gridY;
-   
+    public bool inGrig;
+
     void Start () {
+        inGrig = false;
+        gridX = Main.Instance ().width - 1;
+        gridY = Main.Instance ().height - 1;
         this.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0;
         this.gameObject.GetComponent<Rigidbody2D> ().freezeRotation = true;
     }
 
     void Update () {
-
-        KeepInsideGrid ();
+        if (inGrig) {
+            KeepInsideGrid ();
+        }
     }
 
     public void KeepInsideGrid () {
@@ -40,7 +45,12 @@ public class MouseDrag : MonoBehaviour {
         scanPos = gameObject.transform.position;
         screenPoint = Camera.main.WorldToScreenPoint (scanPos);
         offset = scanPos - Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+        GameObject.Find ("GridCollider").GetComponent<Collider2D> ().enabled = true;
 
+    }
+
+    void OnMouseUp () {
+        GameObject.Find ("GridCollider").GetComponent<Collider2D>().enabled = false;
     }
 
     void OnMouseDrag () {

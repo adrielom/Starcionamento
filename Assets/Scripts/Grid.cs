@@ -27,6 +27,7 @@ public class Grid : MonoBehaviour {
             for (int j = 0; j < h; j++) {
                 Instantiate (element, new Vector3(i,j,0) * offset, Quaternion.identity);
                 gridArray [i, j] = element;
+                gridArray[i, j].gameObject.tag = "Grid Element";
             }
         }
     }
